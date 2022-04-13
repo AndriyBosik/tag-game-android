@@ -59,6 +59,17 @@ class Game(val fieldSize: Int, val pieceSize: Int, bitmap: Bitmap) {
         }
     }
 
+    fun isSolved(): Boolean {
+        for (i in 0 until fieldSize) {
+            for (j in 0 until fieldSize) {
+                if (i*fieldSize + j + 1 != orders[i][j]) {
+                    return false
+                }
+            }
+        }
+        return true
+    }
+
     private fun getPieceByOrder(order: Int): Bitmap {
         if (order == fieldSize*fieldSize) {
             return GraphicsUtils.createColoredBitmap(Color.BLACK, pieceSize)
