@@ -13,7 +13,8 @@ class DefaultGameService @Inject constructor(): GameService {
         return game
     }
 
-    override fun moveClickedPiecePosition(pieceSize: Int, x: Float, y: Float): PiecePosition {
+    override fun moveClickedPiecePosition(fieldSize: Int, pieceCount: Int, x: Float, y: Float): PiecePosition {
+        val pieceSize = fieldSize / pieceCount
         val i = y.toInt() / pieceSize
         val j = x.toInt() / pieceSize
         return PiecePosition(i, j)

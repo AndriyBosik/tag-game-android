@@ -13,7 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 open class SharedPhotoViewModel @Inject constructor(private val gameService: GameService): ViewModel() {
     companion object {
-        private const val PIECES_COUNT = 3
+        private const val PIECES_COUNT = 5
         private const val PIECE_SIZE = 300
         private const val SOLVED_MESSAGE = "Solved!"
         private const val NOT_SOLVED_MESSAGE = "Not Solved :("
@@ -36,8 +36,8 @@ open class SharedPhotoViewModel @Inject constructor(private val gameService: Gam
         mutableNavigationEvent.postValue(NavigationEventType.START)
     }
 
-    fun clicked(x: Float, y: Float) {
-        val piece = gameService.moveClickedPiecePosition(game.pieceSize, x, y)
+    fun clicked(fieldSize: Int, x: Float, y: Float) {
+        val piece = gameService.moveClickedPiecePosition(fieldSize, game.fieldSize, x, y)
         game.movePiece(piece)
         mutablePhoto.value = game.getField()
         mutableGameStatus.value = mapGameSolutionToStatus(game.isSolved())

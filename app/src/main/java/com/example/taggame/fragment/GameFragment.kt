@@ -39,7 +39,7 @@ class GameFragment: Fragment() {
 
         image.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
-                sharedViewModel.clicked(event.x, event.y)
+                sharedViewModel.clicked(image.width, event.x, event.y)
             }
             true
         }

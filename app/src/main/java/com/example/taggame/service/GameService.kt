@@ -7,5 +7,5 @@ import com.example.taggame.model.PiecePosition
 interface GameService {
     fun initGame(fieldSize: Int, pieceSize: Int, bitmap: Bitmap): Game
 
-    fun moveClickedPiecePosition(fieldSize: Int, x: Float, y: Float): PiecePosition
+    fun moveClickedPiecePosition(fieldSize: Int, pieceCount: Int, x: Float, y: Float): PiecePosition
 }

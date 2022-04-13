@@ -81,8 +81,8 @@ class Game(val fieldSize: Int, val pieceSize: Int, bitmap: Bitmap) {
     private fun getPiecePositionByOrder(order: Int): PiecePosition {
         val zeroBasedOrder = order - 1
         return PiecePosition(
-            zeroBasedOrder / 3,
-            zeroBasedOrder % 3
+            zeroBasedOrder / fieldSize,
+            zeroBasedOrder % fieldSize
         )
     }
 
