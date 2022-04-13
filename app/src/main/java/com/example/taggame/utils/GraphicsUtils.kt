@@ -23,12 +23,7 @@ class GraphicsUtils {
             if (first == null) {
                 return second
             }
-            if (direction == MergeDirection.HORIZONTAL && first.height != second.height) {
-                throw IllegalArgumentException()
-            }
-            if (direction == MergeDirection.VERTICAL && first.width != second.width) {
-                throw IllegalArgumentException()
-            }
+            ensureCorrectSize(first, second, direction)
             val height = if (direction == MergeDirection.HORIZONTAL) first.height else first.height + second.height
             val width = if (direction == MergeDirection.HORIZONTAL) first.width + second.width else first.width
 
@@ -65,6 +60,15 @@ class GraphicsUtils {
         fun fillWithColor(color: Int, bitmap: Bitmap) {
             val canvas = Canvas(bitmap)
             canvas.drawColor(color)
+        }
+
+        private fun ensureCorrectSize(first: Bitmap, second: Bitmap, direction: MergeDirection) {
+            if (direction == MergeDirection.HORIZONTAL && first.height != second.height) {
+                throw IllegalArgumentException()
+            }
+            if (direction == MergeDirection.VERTICAL && first.width != second.width) {
+                throw IllegalArgumentException()
+            }
         }
     }
 }
