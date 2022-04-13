@@ -1,19 +1,26 @@
 package com.example.taggame.fragment
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.os.Build
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.example.taggame.R
+import com.example.taggame.model.DisplaySize
 import com.example.taggame.viewmodel.MenuViewModel
 import com.example.taggame.viewmodel.SharedPhotoViewModel
+import java.io.InputStream
 
 class MenuFragment: Fragment() {
     private val sharedViewModel: SharedPhotoViewModel by activityViewModels()
@@ -21,7 +28,10 @@ class MenuFragment: Fragment() {
 
     private val getContentMedia = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result != null && result.data != null && result.data!!.data != null) {
-            sharedViewModel.photoSelected(result.data!!.data!!)
+            val imageStream: InputStream = context!!.contentResolver.openInputStream(result.data!!.data!!)!!
+            val bitmap: Bitmap = BitmapFactory.decodeStream(imageStream)
+
+            sharedViewModel.photoSelected(bitmap)
         }
     }
 
