@@ -57,9 +57,11 @@ class GraphicsUtils {
             return Bitmap.createScaledBitmap(bm, size, size, false)
         }
 
-        fun fillWithColor(color: Int, bitmap: Bitmap) {
+        fun createColoredBitmap(color: Int, size: Int): Bitmap {
+            val bitmap: Bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
             val canvas = Canvas(bitmap)
             canvas.drawColor(color)
+            return bitmap
         }
 
         private fun ensureCorrectSize(first: Bitmap, second: Bitmap, direction: MergeDirection) {

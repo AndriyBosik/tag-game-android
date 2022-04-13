@@ -10,6 +10,7 @@ import kotlin.math.abs
 
 class Game(val fieldSize: Int, val pieceSize: Int, bitmap: Bitmap) {
     private val pieces = mutableListOf<MutableList<Bitmap>>()
+    private val orders = mutableListOf<MutableList<Int>>()
     private var emptyPiece: PiecePosition = PiecePosition(0, 0)
 
     companion object {
@@ -19,8 +20,7 @@ class Game(val fieldSize: Int, val pieceSize: Int, bitmap: Bitmap) {
 
     init {
         divideByPieces(bitmap)
-
-        GraphicsUtils.fillWithColor(Color.BLACK, pieces[fieldSize - 1][fieldSize - 1])
+        initOrders()
 
         emptyPiece = PiecePosition(fieldSize - 1, fieldSize - 1)
     }
@@ -42,7 +42,7 @@ class Game(val fieldSize: Int, val pieceSize: Int, bitmap: Bitmap) {
         for (i in 0 until fieldSize) {
             var leftBitmap: Bitmap? = null
             for (j in 0 until fieldSize) {
-                val current = pieces[i][j]
+                val current = getPieceByOrder(orders[i][j])
                 GraphicsUtils.addBorder(current, 5f)
                 leftBitmap = GraphicsUtils.merge(leftBitmap, current, MergeDirection.HORIZONTAL)
             }
@@ -57,6 +57,22 @@ class Game(val fieldSize: Int, val pieceSize: Int, bitmap: Bitmap) {
             swapPieces(emptyPiece, position)
             emptyPiece = position
         }
+    }
+
+    private fun getPieceByOrder(order: Int): Bitmap {
+        if (order == fieldSize*fieldSize) {
+            return GraphicsUtils.createColoredBitmap(Color.BLACK, pieceSize)
+        }
+        val piecePosition: PiecePosition = getPiecePositionByOrder(order)
+        return pieces[piecePosition.i][piecePosition.j]
+    }
+
+    private fun getPiecePositionByOrder(order: Int): PiecePosition {
+        val zeroBasedOrder = order - 1
+        return PiecePosition(
+            zeroBasedOrder / 3,
+            zeroBasedOrder % 3
+        )
     }
 
     private fun areAdjacent(first: PiecePosition, second: PiecePosition): Boolean {
@@ -86,9 +102,9 @@ class Game(val fieldSize: Int, val pieceSize: Int, bitmap: Bitmap) {
     }
 
     private fun swapPieces(first: PiecePosition, second: PiecePosition) {
-        val current = pieces[first.i][first.j]
-        pieces[first.i][first.j] = pieces[second.i][second.j]
-        pieces[second.i][second.j] = current
+        val current = orders[first.i][first.j]
+        orders[first.i][first.j] = orders[second.i][second.j]
+        orders[second.i][second.j] = current
     }
 
     private fun emptyPosition(second: PiecePosition): Boolean {
@@ -104,6 +120,16 @@ class Game(val fieldSize: Int, val pieceSize: Int, bitmap: Bitmap) {
                 rowPieces.add(first)
             }
             pieces.add(rowPieces)
+        }
+    }
+
+    private fun initOrders() {
+        for (i in 0 until fieldSize) {
+            val rowOrders = mutableListOf<Int>()
+            for (j in 0 until fieldSize) {
+                rowOrders.add(i*fieldSize + j + 1)
+            }
+            orders.add(rowOrders)
         }
     }
 }
