@@ -12,11 +12,14 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.example.taggame.R
+import com.example.taggame.databinding.FragmentGameBinding
+import com.example.taggame.databinding.FragmentMenuBinding
 import com.example.taggame.model.DisplaySize
 import com.example.taggame.viewmodel.MenuViewModel
 import com.example.taggame.viewmodel.SharedPhotoViewModel
@@ -40,8 +43,16 @@ class MenuFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val view: View = inflater.inflate(R.layout.fragment_menu, container, false)
+        val binding: FragmentMenuBinding = DataBindingUtil.inflate(
+            inflater, R.layout.fragment_menu, container, false)
 
+        binding.vm = sharedViewModel
+        binding.lifecycleOwner = this
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         view.findViewById<Button>(R.id.bStart).setOnClickListener {
             viewModel.selectPhotoClicked()
         }
@@ -53,8 +64,6 @@ class MenuFragment: Fragment() {
         viewModel.dialogEvent.observe(this) {
             startPhotoSelection()
         }
-
-        return view
     }
 
     private fun startPhotoSelection() {

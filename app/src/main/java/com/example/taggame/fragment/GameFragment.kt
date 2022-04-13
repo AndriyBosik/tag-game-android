@@ -22,10 +22,10 @@ class GameFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val binding: FragmentGameBinding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_game, container, false
-        )
-        binding.lifecycleOwner = this
+            inflater, R.layout.fragment_game, container, false)
+
         binding.vm = sharedViewModel
+        binding.lifecycleOwner = this
 
         return binding.root
     }

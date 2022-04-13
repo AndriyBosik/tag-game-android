@@ -15,8 +15,4 @@ class MenuViewModel @Inject constructor() : ViewModel() {
     fun selectPhotoClicked() {
         mutableDialogEvent.postValue(DialogEventType.SELECT_PHOTO)
     }
-
-    fun photoSelected(photoPath: String) {
-
-    }
 }
