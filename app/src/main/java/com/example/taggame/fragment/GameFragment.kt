@@ -11,9 +11,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.taggame.R
 import com.example.taggame.databinding.FragmentGameBinding
+import com.example.taggame.viewmodel.GameViewModel
 import com.example.taggame.viewmodel.SharedPhotoViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class GameFragment: Fragment() {
+    private val gameViewModel: GameViewModel by activityViewModels()
     private val sharedViewModel: SharedPhotoViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -24,7 +28,8 @@ class GameFragment: Fragment() {
         val binding: FragmentGameBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_game, container, false)
 
-        binding.vm = sharedViewModel
+        binding.sharedVM = sharedViewModel
+        binding.gameVM = gameViewModel
         binding.lifecycleOwner = this
 
         return binding.root
@@ -33,13 +38,13 @@ class GameFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val image: ImageView = view.findViewById(R.id.ivTagImage)
 
-        sharedViewModel.photo.observe(this) {
+        gameViewModel.photo.observe(this) {
             image.setImageBitmap(it)
         }
 
         image.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
-                sharedViewModel.clicked(image.width, event.x, event.y)
+                gameViewModel.clicked(image.width, event.x, event.y)
             }
             true
         }
