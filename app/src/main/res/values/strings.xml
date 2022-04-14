@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">TagGame</string>
     <string name="select_photo">Select photo</string>
+    <string name="choose_field_size">"Choose field size: "</string>
 </resources>
