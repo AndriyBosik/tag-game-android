@@ -2,6 +2,8 @@ package com.example.taggame.domain
 
 import android.graphics.Bitmap
 import android.graphics.Color
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.taggame.meta.MergeDirection
 import com.example.taggame.model.PiecePosition
 import com.example.taggame.utils.GraphicsUtils
@@ -12,6 +14,9 @@ class Game(val fieldSize: Int, val pieceSize: Int, bitmap: Bitmap) {
     private val pieces = mutableListOf<MutableList<Bitmap>>()
     private val orders = mutableListOf<MutableList<Int>>()
     private var emptyPiece: PiecePosition = PiecePosition(0, 0)
+
+    private val mutableIsSolved = MutableLiveData(false)
+    val isSolved: LiveData<Boolean> = mutableIsSolved
 
     companion object {
         private const val STEPS_COUNT = 10000
@@ -53,13 +58,16 @@ class Game(val fieldSize: Int, val pieceSize: Int, bitmap: Bitmap) {
     }
 
     fun movePiece(position: PiecePosition) {
-        if (areAdjacent(position, emptyPiece)) {
+        if (areAdjacent(position, emptyPiece) && !mutableIsSolved.value!!) {
             swapPieces(emptyPiece, position)
             emptyPiece = position
+            if (isSolved()) {
+                mutableIsSolved.value = true
+            }
         }
     }
 
-    fun isSolved(): Boolean {
+    private fun isSolved(): Boolean {
         for (i in 0 until fieldSize) {
             for (j in 0 until fieldSize) {
                 if (i*fieldSize + j + 1 != orders[i][j]) {
