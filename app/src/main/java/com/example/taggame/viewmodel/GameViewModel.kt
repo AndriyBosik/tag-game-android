@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.taggame.domain.Game
 import com.example.taggame.domain.Timer
 import com.example.taggame.meta.NavigationEventType
@@ -11,13 +12,17 @@ import com.example.taggame.model.GameData
 import com.example.taggame.model.Time
 import com.example.taggame.service.GameDataEventService
 import com.example.taggame.service.GameService
+import com.example.taggame.service.RecordService
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 open class GameViewModel @Inject constructor(
     private val gameService: GameService,
-    private val gameDataEventService: GameDataEventService
+    private val gameDataEventService: GameDataEventService,
+    private val recordService: RecordService
 ): ViewModel() {
     companion object {
         private const val PIECE_SIZE = 300
@@ -49,7 +54,12 @@ open class GameViewModel @Inject constructor(
             PIECE_SIZE,
             gameData.image)
         game!!.isSolved.observeForever {
-            timer.pause()
+            if (it) {
+                timer.pause()
+                viewModelScope.launch(Dispatchers.IO) {
+                    recordService.saveRecord(time.value!!, game!!.fieldSize)
+                }
+            }
         }
         mutablePhoto.value = game!!.getField()
         timer.start()
