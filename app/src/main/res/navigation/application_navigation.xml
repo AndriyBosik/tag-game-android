@@ -11,9 +11,16 @@
         <action
             android:id="@+id/action_menuFragment_to_gameFragment"
             app:destination="@id/gameFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_fieldSizeListFragment"
+            app:destination="@id/fieldSizeListFragment" />
     </fragment>
     <fragment
         android:id="@+id/gameFragment"
         android:name="com.example.taggame.fragment.GameFragment"
         android:label="GameFragment" />
+    <fragment
+        android:id="@+id/fieldSizeListFragment"
+        android:name="com.example.taggame.fragment.FieldSizeListFragment"
+        android:label="FieldSizeListFragment" />
 </navigation>

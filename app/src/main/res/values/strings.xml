@@ -3,4 +3,6 @@
     <string name="select_photo">Select photo</string>
     <string name="choose_field_size">"Choose field size: "</string>
     <string name="colon">:</string>
+    <string name="records">Records</string>
+    <string name="cross">x</string>
 </resources>

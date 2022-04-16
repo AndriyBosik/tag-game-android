@@ -57,8 +57,16 @@ class MenuFragment: Fragment() {
             viewModel.selectPhotoClicked()
         }
 
+        view.findViewById<Button>(R.id.bRecords).setOnClickListener {
+            viewModel.recordsClicked()
+        }
+
         sharedViewModel.navigationEvent.observe(this) {
             Navigation.findNavController(view).navigate(R.id.action_menuFragment_to_gameFragment)
+        }
+
+        viewModel.navigationEvent.observe(this) {
+            Navigation.findNavController(view).navigate(R.id.action_menuFragment_to_fieldSizeListFragment)
         }
 
         viewModel.dialogEvent.observe(this) {
