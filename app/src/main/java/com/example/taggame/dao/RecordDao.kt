@@ -10,7 +10,7 @@ interface RecordDao {
     @Query("SELECT DISTINCT field_size FROM records")
     suspend fun getFieldSizesDistinct(): List<Int>
 
-    @Query("SELECT * FROM records WHERE field_size=:fieldSize")
+    @Query("SELECT * FROM records WHERE field_size=:fieldSize ORDER BY minutes, seconds")
     suspend fun getAllByFieldSize(fieldSize: Int): List<RecordEntity>
 
     @Insert

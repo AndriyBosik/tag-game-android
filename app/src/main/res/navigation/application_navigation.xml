@@ -22,5 +22,13 @@
     <fragment
         android:id="@+id/fieldSizeListFragment"
         android:name="com.example.taggame.fragment.FieldSizeListFragment"
-        android:label="FieldSizeListFragment" />
+        android:label="FieldSizeListFragment" >
+        <action
+            android:id="@+id/action_fieldSizeListFragment_to_recordsFragment"
+            app:destination="@id/recordsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/recordsFragment"
+        android:name="com.example.taggame.fragment.RecordsFragment"
+        android:label="RecordsFragment" />
 </navigation>

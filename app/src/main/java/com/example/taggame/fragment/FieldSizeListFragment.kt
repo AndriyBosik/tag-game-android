@@ -9,14 +9,17 @@ import android.widget.SimpleAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
 import com.example.taggame.R
 import com.example.taggame.databinding.FragmentFieldSizeListBinding
 import com.example.taggame.viewmodel.FieldSizeListViewModel
+import com.example.taggame.viewmodel.SharedFieldSizeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class FieldSizeListFragment: Fragment() {
     private val fieldSizeListViewModel: FieldSizeListViewModel by viewModels()
+    private val sharedFieldSizeViewModel: SharedFieldSizeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,6 +46,13 @@ class FieldSizeListFragment: Fragment() {
                 arrayOf("left", "right"),
                 intArrayOf(R.id.tvLeftValue, R.id.tvRightValue))
             listView.adapter = adapter
+
+            listView.setOnItemClickListener {
+                _, _, position, _ -> run {
+                    sharedFieldSizeViewModel.fieldSizeSelected(it[position])
+                    Navigation.findNavController(view).navigate(R.id.action_fieldSizeListFragment_to_recordsFragment)
+                }
+            }
         }
     }
 

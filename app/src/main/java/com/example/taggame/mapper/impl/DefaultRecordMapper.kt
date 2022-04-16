@@ -14,4 +14,11 @@ class DefaultRecordMapper @Inject constructor(): RecordMapper {
             time.seconds
         )
     }
+
+    override fun toModel(entity: RecordEntity): Time {
+        return Time(
+            entity.minutes,
+            entity.seconds
+        )
+    }
 }

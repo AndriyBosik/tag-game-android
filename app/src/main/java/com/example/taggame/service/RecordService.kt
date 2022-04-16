@@ -1,5 +1,6 @@
 package com.example.taggame.service
 
+import com.example.taggame.model.FieldSize
 import com.example.taggame.model.Time
 
 interface RecordService {
@@ -7,5 +8,5 @@ interface RecordService {
 
     suspend fun getFieldSizesWithRecords(): List<Int>
 
-    suspend fun getAllRecords(): List<Time>
+    suspend fun getRecordsByFieldSize(fieldSize: FieldSize): List<Time>
 }

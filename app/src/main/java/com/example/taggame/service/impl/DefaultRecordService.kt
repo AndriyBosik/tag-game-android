@@ -2,6 +2,7 @@ package com.example.taggame.service.impl
 
 import com.example.taggame.dao.RecordDao
 import com.example.taggame.mapper.RecordMapper
+import com.example.taggame.model.FieldSize
 import com.example.taggame.model.Time
 import com.example.taggame.service.RecordService
 import kotlinx.coroutines.CoroutineScope
@@ -22,7 +23,8 @@ class DefaultRecordService @Inject constructor(
         return recordDao.getFieldSizesDistinct()
     }
 
-    override suspend fun getAllRecords(): List<Time> {
-        TODO("Not yet implemented")
+    override suspend fun getRecordsByFieldSize(fieldSize: FieldSize): List<Time> {
+        return recordDao.getAllByFieldSize(fieldSize.value)
+            .map { recordMapper.toModel(it) }
     }
 }

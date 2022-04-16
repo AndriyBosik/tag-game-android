@@ -5,4 +5,6 @@ import com.example.taggame.model.Time
 
 interface RecordMapper {
     fun toEntity(time: Time, fieldSize: Int): RecordEntity
+
+    fun toModel(entity: RecordEntity): Time
 }
